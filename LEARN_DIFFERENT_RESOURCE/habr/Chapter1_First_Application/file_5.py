@@ -1,0 +1,33 @@
+#https://habr.com/ru/companies/skillfactory/articles/599599/
+
+
+from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
+
+import sys # Только для доступа к аргументам командной строки
+
+# Подкласс QMainWindow для настройки главного окна приложения
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle('My App')
+
+        button = QPushButton('Press Me!')
+
+        self.setFixedSize(QSize(400,300))
+        self.setMinimumSize(400, 300)
+        self.setMaximumSize(800, 600)
+
+        # Устанавливаем центральный виджет Window.
+        self.setCentralWidget(button)
+        
+
+
+
+app = QApplication(sys.argv)
+
+window = MainWindow()
+window.show()
+
+app.exec()
