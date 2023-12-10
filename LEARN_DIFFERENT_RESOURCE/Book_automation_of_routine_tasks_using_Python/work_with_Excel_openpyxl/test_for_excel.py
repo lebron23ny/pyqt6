@@ -2,7 +2,7 @@ import openpyxl
 
 
 
-wb = openpyxl.load_workbook('../../../My_Application/App_2/Data.xlsx')
+wb = openpyxl.load_workbook('../../../My_Application/Application_2/Data.xlsx')
 print(type(wb))
 
 # Получаем имена листов
