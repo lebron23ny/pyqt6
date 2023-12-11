@@ -1,3 +1,4 @@
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QComboBox, QVBoxLayout, QGridLayout,
                              QTextEdit, QPushButton, QSizePolicy)
 from PyQt6.QtCore import Qt
@@ -7,7 +8,8 @@ import sys
 import sqlite3
 from _My_Library.My_Widget.My_custom_title_bar import MyCustomTittleBar
 
-class Mainwindow(QMainWindow):
+
+class App2_Mainwindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -19,11 +21,6 @@ class Mainwindow(QMainWindow):
 
         self.BindingSignal()
         self.SetStyle()
-
-
-
-
-
 
     def InitializeComponent(self):
         self.setWindowTitle('Приложение №2 ver 2')
@@ -38,9 +35,7 @@ class Mainwindow(QMainWindow):
         central_widget.setLayout(layout_central_widget)
         self.title_bar = MyCustomTittleBar(self)
 
-
         widget_work = QWidget()
-
 
         layout_central_widget.addWidget(self.title_bar)
         layout_central_widget.addWidget(widget_work)
@@ -51,9 +46,6 @@ class Mainwindow(QMainWindow):
 
         widget_work.setLayout(layot_work_widget)
         grid = QGridLayout()
-
-
-
 
         self.label_title = QLabel('Заглавный лейбл')
         self.label_type_profile = QLabel('Тип профиля')
@@ -67,8 +59,6 @@ class Mainwindow(QMainWindow):
         self.combobox_profile = QComboBox()
         self.combobox_grade_steel = QComboBox()
         self.button = QPushButton('Типо будет экспорт в WORD')
-
-        #self.output = QTextEdit()
 
         self.widgetInfo = QWidget()
 
@@ -84,47 +74,31 @@ class Mainwindow(QMainWindow):
         grid.addWidget(self.combobox_profile, 1, 1)
         grid.addWidget(self.combobox_grade_steel, 1, 2)
 
-
-
         layot_work_widget.addWidget(self.label_title)
         layot_work_widget.addLayout(grid)
-        #layot_work_widget.addWidget(self.output)
+        # layot_work_widget.addWidget(self.output)
         layot_work_widget.addWidget(self.widgetInfo)
         layot_work_widget.addWidget(self.button)
 
-
-
-
-
-
-
     def SetValuesDefault(self):
         self.setContentsMargins(0, 0, 0, 0)
-        self.combobox_type_profile.addItems(['Труба', 'Двутавр'])
-        self.combobox_type_profile.setCurrentIndex(1)
+        self.combobox_type_profile.addItem(QIcon('Icons/tube_icon.png'), 'Труба')
+        self.combobox_type_profile.addItem(QIcon('Icons/ibeam_icon.png'), 'Двутавр')
+        self.combobox_type_profile.setCurrentIndex(0)
         self.set_values_cb_profile(self.combobox_type_profile.currentText())
         self.set_values_cb_grade_steel(self.combobox_type_profile.currentText())
 
         self.get_output()
 
-
-
     def SetStyle(self):
-
-        self.setWindowFlags(Qt.WindowType.CustomizeWindowHint | Qt.WindowType.WindowStaysOnTopHint)
-
+        self.setWindowFlags(Qt.WindowType.CustomizeWindowHint)
         self.setObjectName('Main')
-
-        #self.setStyleSheet('background-color: green')
-
-
         self.label_title.setStyleSheet('font-size:25pt; '
                                        'font-family:GOST 2.304 type A; '
                                        'color: white;'
                                        'border: 5px solid gold;'
                                        'background-color: black')
         self.label_title.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignHCenter)
-
         self.setMinimumWidth(850)
         self.setMinimumHeight(600)
 
@@ -144,11 +118,10 @@ class Mainwindow(QMainWindow):
 
         self.set_values_cb_profile(self.combobox_type_profile.currentText())
         self.set_values_cb_grade_steel(self.combobox_type_profile.currentText())
-
+        self.get_output()
 
     def the_cb_profile_change(self):
         self.get_output()
-
 
     def the_cb_grade_steel(self):
         self.get_output()
@@ -160,18 +133,18 @@ class Mainwindow(QMainWindow):
             self.cursor.execute('SELECT section_name FROM Data_Ibeam_profile ORDER BY id ASC')
             profile_list = []
             profiles = self.cursor.fetchall()
-            for profile in profiles:
-                profile_list.append(profile[0])
-            self.combobox_profile.addItems(profile_list)
+            # for profile in profiles:
+            #     profile_list.append(profile[0])
+            self.combobox_profile.addItems([profile[0] for profile in profiles])
 
         elif type_profile == "Труба":
             self.cursor.execute('SELECT section_name FROM Data_Tube_profile')
             profile_list = []
             profiles = self.cursor.fetchall()
-            for profile in profiles:
-                profile_list.append(profile[0])
-            self.combobox_profile.addItems(profile_list)
-
+            # for profile in profiles:
+            #     profile_list.append(profile[0])
+            # self.combobox_profile.addItems(profile_list)
+            self.combobox_profile.addItems([profile[0] for profile in profiles])
 
     def set_values_cb_grade_steel(self, type_profile):
         self.combobox_grade_steel.clear()
@@ -184,6 +157,7 @@ class Mainwindow(QMainWindow):
             self.combobox_grade_steel.addItems(material_list)
 
 
+
         elif type_profile == "Труба":
             self.cursor.execute('SELECT steel_name FROM Data_Tube_material GROUP BY steel_name')
             material_list = []
@@ -193,10 +167,12 @@ class Mainwindow(QMainWindow):
             self.combobox_grade_steel.addItems(material_list)
 
     def get_output(self):
+
         type_profile = self.combobox_type_profile.currentText()
         profile = self.combobox_profile.currentText()
         grade_steel = self.combobox_grade_steel.currentText()
-        text = ''
+        if not grade_steel:
+            return
         if type_profile == 'Двутавр':
             self.cursor.execute(
                 f'SELECT section_name, height, width, web_thickness, flange_thickness, square, moment_of_inertia_x, '
@@ -223,22 +199,36 @@ class Mainwindow(QMainWindow):
                     reportListName = ['Тип профиля:', 'Профиль:', 'Сталь:', 'Высота:', 'Ширина:',
                                       'Толщина стенки:', 'Толщина полки:', 'Площадь', 'Момент инерции x-x:',
                                       'Момент инерции y-y:', 'Расчетное сопротивление стали:']
-                    reportList = [f'${type_profile}$', f'${profile}$', f'${grade_steel}$',
-                                  f'${height} мм$', f'${width} мм$',
-                                  f'$t_{'w'} = {web_thickness} мм$',
-                                  f'$t_{'f'} = {flange_thickness} мм$',
-                                  f'$A={square}см^{2}$',
-                                  f'$I_{'x'}={moment_of_inertia_x}см^{4}$',
-                                  f'$I_{'y'}={moment_of_inertia_y}см^{4}$',
-                                  f'$R_{'y'}={r_y}Н/мм^{2}$'
+                    reportList = [f"${type_profile}$",
+                                  f"${profile}$",
+                                  f"${grade_steel}$",
+                                  f"${height} мм$",
+                                  f"${width} мм$",
+                                  f"$t_{'w'} = {web_thickness} мм$",
+                                  f"$t_{'f'} = {flange_thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  f"$R_{'y'}={r_y}Н/мм^{2}$"
                                   ]
                     self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
-
-
+                else:
+                    reportListName = ['Тип профиля:', 'Профиль:', 'Сталь:', 'Высота:', 'Ширина:',
+                                      'Толщина стенки:', 'Толщина полки:', 'Площадь', 'Момент инерции x-x:',
+                                      'Момент инерции y-y:', 'Расчетное сопротивление стали:']
+                    reportList = [f"${type_profile}$", f"${profile}$", f"${grade_steel}$",
+                                  f"${height} мм$', f'${width} мм$",
+                                  f"$t_{'w'} = {web_thickness} мм$",
+                                  f"$t_{'f'} = {flange_thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  "$None$"]
+                    self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
 
         elif type_profile == 'Труба':
             self.cursor.execute(f'SELECT section_name, height, width, thickness, square, moment_of_inertia_x, '
-               f'moment_of_inertia_y FROM Data_Tube_profile WHERE section_name = "{profile}"')
+                                f'moment_of_inertia_y FROM Data_Tube_profile WHERE section_name = "{profile}"')
             query = self.cursor.fetchone()
             if query is not None:
                 height = query[1]
@@ -247,15 +237,12 @@ class Mainwindow(QMainWindow):
                 square = query[4]
                 moment_of_inertia_x = query[5]
                 moment_of_inertia_y = query[6]
-
                 self.cursor.execute(
                     f'SELECT Ry FROM Data_Tube_material '
                     f'WHERE steel_name = "{grade_steel}" AND '
                     f'thickness_min <={thickness} '
                     f'AND thickness_max > {thickness}')
                 query = self.cursor.fetchone()
-
-
                 if query is not None:
                     r_y = query[0]
                     reportListName = ['Тип профиля:',
@@ -269,50 +256,41 @@ class Mainwindow(QMainWindow):
                                       'Момент инерции y-y:',
                                       'Расчетное сопротивление стали:']
 
-                    reportList = [f'${type_profile}$',
-                                  f'${profile}$',
-                                  f'${grade_steel}$',
-                                  f'${height} мм$',
-                                  f'${width} мм$',
-                                  f'$t_{'w'} = {thickness} мм$',
-                                  f'$A={square}см^{2}$',
-                                  f'$I_{'x'}={moment_of_inertia_x}см^{4}$',
-                                  f'$I_{'y'}={moment_of_inertia_y}см^{4}$',
-                                  f'$R_{'y'}={r_y}Н/мм^{2}$']
+                    reportList = [f"${type_profile}$",
+                                  f"${profile}$",
+                                  f"${grade_steel}$",
+                                  f"${height} мм$",
+                                  f"${width} мм$",
+                                  f"$t_{'w'} = {thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  f"$R_{'y'}={r_y}Н/мм^{2}$"]
                     self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
 
-                # else:
-                #     reportListName = ['Тип профиля:',
-                #                       'Профиль:',
-                #                       'Сталь:',
-                #                       'Высота:',
-                #                       'Ширина:',
-                #                       'Толщина:',
-                #                       'Площадь',
-                #                       'Момент инерции x-x:',
-                #                       'Момент инерции y-y:',
-                #                       'Расчетное сопротивление стали:']
-                #
-                #     reportList = [f'${type_profile}$',
-                #                   f'${profile}$',
-                #                   f'${grade_steel}$',
-                #                   f'${height} мм$',
-                #                   f'${width} мм$',
-                #                   f'$t_{'w'} = {thickness} мм$',
-                #                   f'$A={square}см^{2}$',
-                #                   f'$I_{'x'}={moment_of_inertia_x}см^{4}$',
-                #                   f'$I_{'y'}={moment_of_inertia_y}см^{4}$',
-                #                   f'$None$']
-                #     self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
+                else:
+                    reportListName = ['Тип профиля:',
+                                      'Профиль:',
+                                      'Сталь:',
+                                      'Высота:',
+                                      'Ширина:',
+                                      'Толщина:',
+                                      'Площадь',
+                                      'Момент инерции x-x:',
+                                      'Момент инерции y-y:',
+                                      'Расчетное сопротивление стали:']
 
-
-
-
-
-
-
-
-
+                    reportList = [f"${type_profile}$",
+                                  f"${profile}$",
+                                  f"${grade_steel}$",
+                                  f"${height} мм$",
+                                  f"${width} мм$",
+                                  f"$t_{'w'} = {thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  "$None$"]
+                    self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
 
     def setFormulaList(self, formulaList):
         for text in formulaList:
@@ -320,24 +298,23 @@ class Mainwindow(QMainWindow):
             label_row_info = QLabel()
             label_row_info.setObjectName('label_row')
             label_row_info.setStyleSheet('background-color:red;'
-                                 'font: bold;'
-                                 'border: none;'
-                                 'padding-left:10px;'
-                                 'padding-right:100px;'
-                                 'padding-top:1px')
+                                         'font: bold;'
+                                         'border: none;'
+                                         'padding-left:10px;'
+                                         'padding-right:100px;'
+                                         'padding-top:1px')
             label_row_info.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
             label_row_info.setPixmap(pixmap)
             self.layot_widgetInfo.addWidget(label_row_info)
         label_end_row = QLabel()
         label_end_row.setStyleSheet('background-color:red;'
-                             'border: none;'
-                             'font-size:15pt;'
-                             'padding-left:10px;'
-                             'padding-top:1px;'
-                             'font-family:GOST 2.304 type A')
+                                    'border: none;'
+                                    'font-size:15pt;'
+                                    'padding-left:10px;'
+                                    'padding-top:1px;'
+                                    'font-family:GOST 2.304 type A')
         label_end_row.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.layot_widgetInfo.addWidget(label_end_row)
-
 
     def setFormulaListToGridLayout(self, reportList, reportListName):
         self.clear_layout_widgetInfo()
@@ -346,37 +323,36 @@ class Mainwindow(QMainWindow):
             label_formula = QLabel()
             label_formula.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
             label_formula.setPixmap(pixmap)
-            label_formula.setStyleSheet('background-color:red;'
-                                        
-                                         'font: bold;'
-                                         'border: none;'
-                                         'padding-left:10px;'
-                                         'padding-right:100px;'
-                                         'padding-top:1px')
+            label_formula.setObjectName('label_formula')
+            # label_formula.setStyleSheet('background-color:red;'
+            #
+            #                             'font: bold;'
+            #                             'border: none;'
+            #                             'padding-left:10px;'
+            #                             'padding-right:100px;'
+            #                             'padding-top:1px')
             label_name = QLabel(reportListName[i])
-            label_name.setObjectName('name')
+            label_name.setObjectName('name_property')
             label_name.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-            label_name.setStyleSheet('background-color:red;'
-                                   'font-size:15pt;'
-                                 'font: bold;'
-                                 'border: none;'
-                                 'padding-left:10px;'
-                                 'padding-right:100px;'
-                                 'padding-top:1px')
+            # label_name.setStyleSheet('background-color:red;'
+            #                          'font-size:15pt;'
+            #                          'font: bold;'
+            #                          'border: none;'
+            #                          'padding-left:10px;'
+            #                          'padding-right:100px;'
+            #                          'padding-top:1px')
             self.layot_widgetInfo.addWidget(label_name, i, 0)
             self.layot_widgetInfo.addWidget(label_formula, i, 1)
 
-
         label_end_row = QLabel()
         label_end_row.setStyleSheet('background-color:red;'
-                             'border: none;'
-                             'font-size:15pt;'
-                             'padding-left:10px;'
-                             'padding-top:1px;'
-                             'font-family:GOST 2.304 type A')
+                                    'border: none;'
+                                    'font-size:15pt;'
+                                    'padding-left:10px;'
+                                    'padding-top:1px;'
+                                    'font-family:GOST 2.304 type A')
         label_end_row.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.layot_widgetInfo.addWidget(label_end_row, len(reportList), 0, 1, 2)
-
 
         self.layot_widgetInfo.setColumnStretch(0, 1)
         self.layot_widgetInfo.setColumnStretch(1, 1)
@@ -385,7 +361,6 @@ class Mainwindow(QMainWindow):
         while self.layot_widgetInfo.count() > 0:
             widgetToRemove = self.layot_widgetInfo.takeAt(0).widget()
             widgetToRemove.deleteLater()
-
 
     def closeEvent(self, a0):
         self.connection.close()
@@ -396,6 +371,26 @@ StyleSheet = """
 QMainWindow {
     background-color: green;
 }
+QLabel#name_property
+{
+     background-color:red;
+     font-size:15pt;
+     font: bold;
+     border: none;
+     padding-left:10px;
+     padding-right:100px;
+     padding-top:1px
+}
+QLabel#label_formula
+{
+    background-color:red;
+    font: bold;
+    border: none;
+    padding-left:10px;
+    padding-right:100px;
+    padding-top:1px;
+}
+
 QLabel#label_standard {
     font-size:15pt;
     font-family:GOST 2.304 type A;
@@ -444,9 +439,4 @@ QComboBox QAbstractItemView {
 
 """
 
-app = QApplication(sys.argv)
-app.setStyleSheet(StyleSheet)
-window = Mainwindow()
-window.show()
 
-app.exec()

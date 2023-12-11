@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QPushButton, QTabWidget,
 from PyQt6 import QtCore
 
 
-from My_Library.Calculate import findZ, isNumberValue
-from My_Library.Calculate import listX, listY, listZ
+from _My_Library.My_Function.Calculate import findZ, isNumberValue
+from _My_Library.My_Function.Calculate import listX, listY, listZ
 
 
 

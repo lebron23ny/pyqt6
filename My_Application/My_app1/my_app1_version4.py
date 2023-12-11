@@ -11,8 +11,8 @@ from matplotlib.figure import Figure
 
 
 
-from My_Library.Calculate import findZ, isNumberValue
-from My_Library.Calculate import listX, listY, listZ
+from _My_Library.My_Function.Calculate import findZ, isNumberValue
+from _My_Library.My_Function.Calculate import listX, listY, listZ
 
 from My_Widget.LatexFormulaWidget import LatexFormulaWidget
 

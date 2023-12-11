@@ -2,10 +2,10 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QComboB
                              QTextEdit, QPushButton, QSizePolicy)
 from PyQt6.QtCore import Qt
 
-from My_Library.Pixmap_Latex import mathTex_to_QPixmap
+from _My_Library.My_Function.Pixmap_Latex import mathTex_to_QPixmap
 import sys
 import sqlite3
-from My_Widget.My_custom_title_bar import MyCustomTittleBar
+from _My_Library.My_Widget.My_custom_title_bar import MyCustomTittleBar
 
 class Mainwindow(QMainWindow):
     def __init__(self):

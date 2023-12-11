@@ -9,19 +9,38 @@ from PyQt6.QtWidgets import (
     QToolButton,
     QVBoxLayout,
     QWidget,
-    QPushButton
+    QPushButton, QFrame
 )
 
-class MyCustomTittleBar(QWidget):
+class MyCustomTittleBar1(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
-        self.setAutoFillBackground(True)
-        self.setBackgroundRole(QPalette.ColorRole.Highlight)
+        #self.setAutoFillBackground(True)
+        #self.setBackgroundRole(QPalette.ColorRole.Highlight)
         self.initial_pos = None
 
+        self.setFixedHeight(40)
+
+        main_layout = QVBoxLayout()
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(main_layout)
+        frame = QFrame()
+        frame.setObjectName('TittleBarFrame')
+        frame.setStyleSheet(
+            'border: 2px solid black;'
+            #'background-color:red;'
+        )
+
+        main_layout.addWidget(frame)
+
+
+
+
         title_bar_layout = QHBoxLayout(self)
-        title_bar_layout.setContentsMargins(1, 1, 1, 1)
+        title_bar_layout.setContentsMargins(5, 0, 8, 0)
         title_bar_layout.setSpacing(2)
+
+        frame.setLayout(title_bar_layout)
 
         self.title = QLabel(f"{self.__class__.__name__}", self)
 
@@ -65,6 +84,7 @@ class MyCustomTittleBar(QWidget):
             'border-radius:5px;'
             'width:230px;'
             'height:50px;'
+            
 
             '}'
             'QPushButton:hover'

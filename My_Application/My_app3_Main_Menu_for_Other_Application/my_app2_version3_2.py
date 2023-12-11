@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QComboB
 from PyQt6.QtCore import Qt
 
 from _My_Library.My_Function.Pixmap_Latex import mathTex_to_QPixmap
-import sys
+
 import sqlite3
 from _My_Library.My_Widget.My_custom_title_bar import MyCustomTittleBar
 
@@ -199,28 +199,31 @@ class App2_Mainwindow(QMainWindow):
                     reportListName = ['Тип профиля:', 'Профиль:', 'Сталь:', 'Высота:', 'Ширина:',
                                       'Толщина стенки:', 'Толщина полки:', 'Площадь', 'Момент инерции x-x:',
                                       'Момент инерции y-y:', 'Расчетное сопротивление стали:']
-                    reportList = [f'${type_profile}$', f'${profile}$', f'${grade_steel}$',
-                                  f'${height} мм$', f'${width} мм$',
-                                  f'$t_{'w'} = {web_thickness} мм$',
-                                  f'$t_{'f'} = {flange_thickness} мм$',
-                                  f'$A={square}см^{2}$',
-                                  f'$I_{'x'}={moment_of_inertia_x}см^{4}$',
-                                  f'$I_{'y'}={moment_of_inertia_y}см^{4}$',
-                                  f'$R_{'y'}={r_y}Н/мм^{2}$'
+                    reportList = [f"${type_profile}$",
+                                  f"${profile}$",
+                                  f"${grade_steel}$",
+                                  f"${height} мм$",
+                                  f"${width} мм$",
+                                  f"$t_{'w'} = {web_thickness} мм$",
+                                  f"$t_{'f'} = {flange_thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  f"$R_{'y'}={r_y}Н/мм^{2}$"
                                   ]
                     self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
                 else:
                     reportListName = ['Тип профиля:', 'Профиль:', 'Сталь:', 'Высота:', 'Ширина:',
                                       'Толщина стенки:', 'Толщина полки:', 'Площадь', 'Момент инерции x-x:',
                                       'Момент инерции y-y:', 'Расчетное сопротивление стали:']
-                    reportList = [f'${type_profile}$', f'${profile}$', f'${grade_steel}$',
-                                  f'${height} мм$', f'${width} мм$',
-                                  f'$t_{'w'} = {web_thickness} мм$',
-                                  f'$t_{'f'} = {flange_thickness} мм$',
-                                  f'$A={square}см^{2}$',
-                                  f'$I_{'x'}={moment_of_inertia_x}см^{4}$',
-                                  f'$I_{'y'}={moment_of_inertia_y}см^{4}$',
-                                  '$None$']
+                    reportList = [f"${type_profile}$", f"${profile}$", f"${grade_steel}$",
+                                  f"${height} мм$', f'${width} мм$",
+                                  f"$t_{'w'} = {web_thickness} мм$",
+                                  f"$t_{'f'} = {flange_thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  "$None$"]
                     self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
 
         elif type_profile == 'Труба':
@@ -253,16 +256,16 @@ class App2_Mainwindow(QMainWindow):
                                       'Момент инерции y-y:',
                                       'Расчетное сопротивление стали:']
 
-                    reportList = [f'${type_profile}$',
-                                  f'${profile}$',
-                                  f'${grade_steel}$',
-                                  f'${height} мм$',
-                                  f'${width} мм$',
-                                  f'$t_{'w'} = {thickness} мм$',
-                                  f'$A={square}см^{2}$',
-                                  f'$I_{'x'}={moment_of_inertia_x}см^{4}$',
-                                  f'$I_{'y'}={moment_of_inertia_y}см^{4}$',
-                                  f'$R_{'y'}={r_y}Н/мм^{2}$']
+                    reportList = [f"${type_profile}$",
+                                  f"${profile}$",
+                                  f"${grade_steel}$",
+                                  f"${height} мм$",
+                                  f"${width} мм$",
+                                  f"$t_{'w'} = {thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  f"$R_{'y'}={r_y}Н/мм^{2}$"]
                     self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
 
                 else:
@@ -277,16 +280,16 @@ class App2_Mainwindow(QMainWindow):
                                       'Момент инерции y-y:',
                                       'Расчетное сопротивление стали:']
 
-                    reportList = [f'${type_profile}$',
-                                  f'${profile}$',
-                                  f'${grade_steel}$',
-                                  f'${height} мм$',
-                                  f'${width} мм$',
-                                  f'$t_{'w'} = {thickness} мм$',
-                                  f'$A={square}см^{2}$',
-                                  f'$I_{'x'}={moment_of_inertia_x}см^{4}$',
-                                  f'$I_{'y'}={moment_of_inertia_y}см^{4}$',
-                                  '$None$']
+                    reportList = [f"${type_profile}$",
+                                  f"${profile}$",
+                                  f"${grade_steel}$",
+                                  f"${height} мм$",
+                                  f"${width} мм$",
+                                  f"$t_{'w'} = {thickness} мм$",
+                                  f"$A={square}см^{2}$",
+                                  f"$I_{'x'}={moment_of_inertia_x}см^{4}$",
+                                  f"$I_{'y'}={moment_of_inertia_y}см^{4}$",
+                                  "$None$"]
                     self.setFormulaListToGridLayout(reportList=reportList, reportListName=reportListName)
 
     def setFormulaList(self, formulaList):

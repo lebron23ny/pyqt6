@@ -2,8 +2,10 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QSizePolicy
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QPixmap, QIcon
-from my_app1 import App1_MainWindow
-from my_app2_version3_2 import App2_Mainwindow
+
+from _My_Library.Main_Window_Apps.my_app1 import App1_MainWindow
+from _My_Library.Main_Window_Apps.my_app2_version3_2 import App2_Mainwindow
+
 
 from _My_Library.My_Widget.My_custom_button import CustomButton
 

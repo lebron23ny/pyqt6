@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt
 import sys
 import openpyxl
 import sqlite3
-from My_Widget.My_custom_title_bar import MyCustomTittleBar
+from _My_Library.My_Widget.My_custom_title_bar import MyCustomTittleBar
 
 class Mainwindow(QMainWindow):
     def __init__(self):

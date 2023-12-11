@@ -67,6 +67,7 @@ StyleSheet = '''
             background-color: #2196F3;
             width: 10px;                   
             margin: 0.5px;
+            
         }
         '''
 
