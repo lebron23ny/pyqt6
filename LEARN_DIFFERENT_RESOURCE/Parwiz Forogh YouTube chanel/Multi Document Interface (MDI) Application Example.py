@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QMdiArea, QMdiSubWindow, 
     QVBoxLayout, QListWidget, QPushButton, QLabel, QLineEdit
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt
+import pyqtgraph.opengl as gl
 
 class SubWidget(QWidget):
     def __init__(self):
@@ -28,6 +29,27 @@ class SubWidget(QWidget):
         layout_sub_widget.addWidget(button_sub)
 
 
+
+class SubWidget1(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setMinimumSize(700, 900)
+        self.setAcceptDrops(True)
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        self.viewer = gl.GLViewWidget()
+        self.viewer.setBackgroundColor('white')
+        layout.addWidget(self.viewer)
+        g = gl.GLGridItem()
+        g.setColor('black')
+        g.setSize(200, 200)
+        g.setSpacing(5, 5)
+        self.viewer.addItem(g)
+
+
+
 class MDIWindow(QMainWindow):
     count = 0
 
@@ -42,7 +64,8 @@ class MDIWindow(QMainWindow):
 
         bar = self.menuBar()
         file = bar.addMenu('File')
-        file.addAction('New')
+        file.addAction('New_win1')
+        file.addAction('New_win2')
         file.addAction('Cascade')
         file.addAction('Tiled')
         file.triggered[QAction].connect(self.WindowTrig)
@@ -65,15 +88,24 @@ class MDIWindow(QMainWindow):
 
         self.setWindowTitle('MDI Application')
 
+
+
+
+
     def WindowTrig(self, p):
-        if p.text() == 'New':
+        if p.text() == 'New_win1':
             MDIWindow.count = MDIWindow.count + 1
             sub = QMdiSubWindow()
-
             subWidget = SubWidget()
+            sub.setWidget(subWidget)
+            sub.setWindowTitle('Sub Window ' + str(MDIWindow.count))
+            self.mdi.addSubWindow(sub)
+            sub.show()
 
-
-
+        if p.text() == 'New_win2':
+            MDIWindow.count = MDIWindow.count + 1
+            sub = QMdiSubWindow()
+            subWidget = SubWidget1()
             sub.setWidget(subWidget)
             sub.setWindowTitle('Sub Window ' + str(MDIWindow.count))
             self.mdi.addSubWindow(sub)

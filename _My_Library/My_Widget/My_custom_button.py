@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPalette
+from PyQt6.QtGui import QPalette, QCursor
 from PyQt6.QtCore import pyqtSignal
 
 class CustomButton(QLabel):
@@ -22,6 +22,7 @@ class CustomButton(QLabel):
             self.setFixedSize(height, width)
 
     def mouseMoveEvent(self, ev):
+        self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.setStyleSheet('background-color: blue;'
                            'border: 10px solid black;'
                            'font-weight:bold;')
@@ -37,4 +38,6 @@ class CustomButton(QLabel):
         self.setStyleSheet(f'background-color: {self.startColor}')
 
     def leaveEvent(self, a0):
+        self.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         self.setStyleSheet(f'background-color: {self.startColor}')
+

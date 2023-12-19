@@ -1,4 +1,5 @@
 import docx
+
 doc = docx.Document('template.docx')
 doc.add_paragraph('Здравствуй, мир!')
 

@@ -9,12 +9,15 @@ class AppDemo(QWidget):
     def __init__(self):
         super().__init__()
         self.resize(1200, 800)
+        print('ddd')
 
         self.vbox = QVBoxLayout()
         self.setLayout(self.vbox)
         self.label = QLabel('Установи фокус на поле 1')
         self.lineEdit1 = QLineEdit()
         self.tableWidget = QTableWidget(3, 3)
+
+
 
 
 
@@ -33,7 +36,7 @@ class AppDemo(QWidget):
 
         self.shortcut = QShortcut(QKeySequence.StandardKey.Copy, self)
         self.shortcut.activated.connect(
-            lambda shortcut_key=self.shortcut.key().toString(): self.displayKeys(shortcut_key))
+            lambda shortcut_key=self.shortcut.key().toString(): self.copy_method(shortcut_key))
 
         # Special Keys assigment
         self.shortcut = QShortcut(QKeySequence('Ctrl+Shift+T'), self)
@@ -51,8 +54,23 @@ class AppDemo(QWidget):
 
 
 
+
+
+
+
+
     def displayKeys(self, mapping):
         print(mapping)
+
+
+
+
+    def copy_method(self, mapping):
+        print(f'метод copy {mapping}')
+
+
+
+
 
 
 
