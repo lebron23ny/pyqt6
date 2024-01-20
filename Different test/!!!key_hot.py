@@ -65,7 +65,7 @@ class AppDemo(QWidget):
 
 
 
-    def copy_method(self, mapping):
+    def copy_metQKeySequence.StandardKey.Deletehod(self, mapping):
         print(f'метод copy {mapping}')
 
 

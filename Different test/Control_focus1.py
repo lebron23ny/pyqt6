@@ -2,6 +2,7 @@ from PyQt6.QtGui import QShortcut, QKeySequence
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit, QPushButton, QLabel, QWidget, QVBoxLayout, QComboBox
 import sys
 from PyQt6.QtCore import Qt
+from PyQt6.uic.uiparser import QtCore
 
 
 class MyWind(QWidget):
@@ -28,15 +29,6 @@ class MyWind(QWidget):
         self.btn = QPushButton('Кнопка')
         self.btn.clicked.connect(self.btn_click)
 
-
-
-
-
-
-
-
-
-
         layout.addWidget(self.lineEdit1)
         layout.addWidget(self.lineEdit2)
         layout.addWidget(self.lineEdit3)
@@ -44,15 +36,12 @@ class MyWind(QWidget):
         layout.addWidget(self.combobox2)
         layout.addWidget(self.btn)
 
-        # self.lineEdit1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
-        # self.lineEdit2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
-        # self.lineEdit3.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
 
-        # Устанавливаем для комбобоксов и кнопки способ получения фокус - компонент может получать фокус посредством
-        # щелчка мышью
+
+        # Устанавливаем для комбобоксов и кнопки способ получения фокус - компонент не может получать фокус
         self.combobox1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
         self.combobox2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
-        self.btn.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        self.btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         # Устанавливаем при загрузки приложения чтобы изначлаьно фокус был на lineEdit1
         self.lineEdit1.setFocus()
@@ -60,9 +49,9 @@ class MyWind(QWidget):
         # Устанавливаем последовательность смены фокуса при нажатии кнопки Tab. например lineEdit1->lineEdit3->lineEdit2
         # Обязательно этот код нужно писать после того как виджеты помещены на форму
         # Но если код не писать то Tab будет переключатся 1->2->3.
-        self.setTabOrder(self.lineEdit1, self.lineEdit3)
-        self.setTabOrder(self.lineEdit3, self.lineEdit2)
-        self.setTabOrder(self.lineEdit2, self.lineEdit1)
+        # self.setTabOrder(self.lineEdit1, self.lineEdit3)
+        # self.setTabOrder(self.lineEdit3, self.lineEdit2)
+        # self.setTabOrder(self.lineEdit2, self.lineEdit1)
 
 
 
@@ -70,6 +59,18 @@ class MyWind(QWidget):
         self.shortcut.activated.connect(
             lambda shortcut_key=self.shortcut.key().toString(): self.shortcut_method(shortcut_key))
 
+        self.shortcut = QShortcut(QKeySequence.StandardKey.Copy, self)
+        self.shortcut.activated.connect(
+            lambda shortcut_key=self.shortcut.key().toString(): self.shortcut_method(shortcut_key))
+
+
+
+    def keyPressEvent(self, event):
+
+        if event.key() == Qt.Key.Key_Enter or event.key() == Qt.Key.Key_Return:
+            print('Enter')
+            self.focusNextChild()
+            print()
 
 
 
@@ -83,6 +84,10 @@ class MyWind(QWidget):
             print('combobox2 has focus : ', self.combobox2.hasFocus())
             print('btn has focus : ', self.btn.hasFocus())
             print()
+        elif shortcut_key == 'Ctrl+C':
+            print('Ctrl+C')
+            print()
+
 
 
 
@@ -101,6 +106,9 @@ class MyWind(QWidget):
         print('combobox2 has focus : ', self.combobox2.hasFocus())
         print('btn has focus : ', self.btn.hasFocus())
         print()
+        self.focusNextChild()
+
+
 
 
 
