@@ -12,18 +12,12 @@ class MyWind(QWidget):
         self.setLayout(layout)
         self.lineEdit1 = QLineEdit()
         self.lineEdit1.setPlaceholderText('Line Edit 1')
-        self.lineEdit2 = QLineEdit()
-        self.lineEdit2.setPlaceholderText('Line Edit 2')
+
         self.lineEdit3 = QLineEdit()
         self.lineEdit3.setPlaceholderText('Line Edit 3')
 
-        self.lineEdit1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
-        self.lineEdit2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
-        self.lineEdit3.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
-
-
-
-
+        self.lineEdit2 = QLineEdit()
+        self.lineEdit2.setPlaceholderText('Line Edit 2')
 
         self.combobox1 = QComboBox()
         self.combobox1.addItems(['cmb1_1', 'cmb1_2'])
@@ -35,6 +29,14 @@ class MyWind(QWidget):
         self.btn.clicked.connect(self.btn_click)
 
 
+
+
+
+
+
+
+
+
         layout.addWidget(self.lineEdit1)
         layout.addWidget(self.lineEdit2)
         layout.addWidget(self.lineEdit3)
@@ -42,11 +44,34 @@ class MyWind(QWidget):
         layout.addWidget(self.combobox2)
         layout.addWidget(self.btn)
 
-        self.lineEdit3.setFocus()
+        # self.lineEdit1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        # self.lineEdit2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        # self.lineEdit3.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
+        # Устанавливаем для комбобоксов и кнопки способ получения фокус - компонент может получать фокус посредством
+        # щелчка мышью
+        self.combobox1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        self.combobox2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+        self.btn.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
+
+        # Устанавливаем при загрузки приложения чтобы изначлаьно фокус был на lineEdit1
+        self.lineEdit1.setFocus()
+
+        # Устанавливаем последовательность смены фокуса при нажатии кнопки Tab. например lineEdit1->lineEdit3->lineEdit2
+        # Обязательно этот код нужно писать после того как виджеты помещены на форму
+        # Но если код не писать то Tab будет переключатся 1->2->3.
+        self.setTabOrder(self.lineEdit1, self.lineEdit3)
+        self.setTabOrder(self.lineEdit3, self.lineEdit2)
+        self.setTabOrder(self.lineEdit2, self.lineEdit1)
+
+
 
         self.shortcut = QShortcut(QKeySequence('Ctrl+V'), self)
         self.shortcut.activated.connect(
             lambda shortcut_key=self.shortcut.key().toString(): self.shortcut_method(shortcut_key))
+
+
+
 
     def shortcut_method(self, shortcut_key):
         if shortcut_key == 'Ctrl+V':
@@ -76,6 +101,8 @@ class MyWind(QWidget):
         print('combobox2 has focus : ', self.combobox2.hasFocus())
         print('btn has focus : ', self.btn.hasFocus())
         print()
+
+
 
 app = QApplication(sys.argv)
 win = MyWind()

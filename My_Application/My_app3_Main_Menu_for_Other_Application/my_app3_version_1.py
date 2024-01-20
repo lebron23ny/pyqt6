@@ -54,6 +54,7 @@ class MainWindow(QMainWindow):
     def set_style_default(self):
         self.setMinimumWidth(800)
         self.setMinimumHeight(425)
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
 
         self.button_show_app1.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.button_show_app2.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)

@@ -343,7 +343,7 @@ class Mainwindow(QMainWindow):
         label_end_row.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.layot_widgetInfo.addWidget(label_end_row, len(reportList), 0, 1, 2)
 
-        self.layot_widgetInfo.setColumnStretch(0, 1)
+        self.layot_widgetInfo.setColumnStretch(0, 3)
         self.layot_widgetInfo.setColumnStretch(1, 1)
 
     def clear_layout_widgetInfo(self):
