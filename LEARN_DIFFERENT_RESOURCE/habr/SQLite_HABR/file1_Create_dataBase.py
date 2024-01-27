@@ -1,5 +1,5 @@
 #https://habr.com/ru/articles/754400/
-
+#fddfd
 import sqlite3
 
 # Устанавливаем соединение с базой данных
