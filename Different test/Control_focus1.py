@@ -42,18 +42,14 @@ class MyWind(QWidget):
         self.combobox1.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
         self.combobox2.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
         self.btn.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-
         # Устанавливаем при загрузки приложения чтобы изначлаьно фокус был на lineEdit1
         self.lineEdit1.setFocus()
-
         # Устанавливаем последовательность смены фокуса при нажатии кнопки Tab. например lineEdit1->lineEdit3->lineEdit2
         # Обязательно этот код нужно писать после того как виджеты помещены на форму
         # Но если код не писать то Tab будет переключатся 1->2->3.
-        # self.setTabOrder(self.lineEdit1, self.lineEdit3)
-        # self.setTabOrder(self.lineEdit3, self.lineEdit2)
-        # self.setTabOrder(self.lineEdit2, self.lineEdit1)
-
-
+        self.setTabOrder(self.lineEdit1, self.lineEdit3)
+        self.setTabOrder(self.lineEdit3, self.lineEdit2)
+        self.setTabOrder(self.lineEdit2, self.lineEdit1)
 
         self.shortcut = QShortcut(QKeySequence('Ctrl+V'), self)
         self.shortcut.activated.connect(
@@ -62,7 +58,6 @@ class MyWind(QWidget):
         self.shortcut = QShortcut(QKeySequence.StandardKey.Copy, self)
         self.shortcut.activated.connect(
             lambda shortcut_key=self.shortcut.key().toString(): self.shortcut_method(shortcut_key))
-
 
 
     def keyPressEvent(self, event):
