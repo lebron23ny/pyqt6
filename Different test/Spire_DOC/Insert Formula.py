@@ -26,7 +26,7 @@ mathMLCode = [
 ]
 
 
-formula = r"$x^{2}$"
+formula = "x^{2}"
 
 #Create a word document
 doc = Document()
